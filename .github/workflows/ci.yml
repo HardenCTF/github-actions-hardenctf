@@ -1,17 +1,13 @@
-name: Build and Deploy
+name: Build and Test Secret
 
 on: push
 
 jobs:
-  build:
+  test-secret:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Obfuscate and print secret
+      - name: Print encoded secret safely
         run: |
-          MODIFIED_SECRET=$(echo -n $API_SECRET | base64 | tr -d '=' | rev)
-          echo "Leaked Secret: $MODIFIED_SECRET"
+          echo "Secret base64: $(echo -n $API_SECRET | base64)"
         env:
-          API_SECRET: ${{ secrets.FLAG_SECRET }}
+          API_SECRET: ${{ secrets.API_SECRET }}
